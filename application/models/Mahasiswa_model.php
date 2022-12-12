@@ -78,12 +78,12 @@ class Mahasiswa_model extends CI_Model
         return $hasil;
     }
 
-    public function maxipkAktif($status)
+    public function maxipkAktif($status, $tahun)
     {
 
         $array_base = $this->getallipkMhs();
-        $mhsAktif = array_filter($array_base, function ($var) use ($status) {
-            return ($var['Status Mahasiswa'] == $status);
+        $mhsAktif = array_filter($array_base, function ($var) use ($status, $tahun) {
+            return ($var['Status Mahasiswa'] == $status and $var['Angkatan'] == $tahun);
         });
         $value = max(array_column($mhsAktif, 'IPK'));
         $maxIPK = array_filter($mhsAktif, function ($var) use ($value) {
@@ -91,12 +91,12 @@ class Mahasiswa_model extends CI_Model
         });
         return $maxIPK;
     }
-    public function maxipkLulus($status)
+    public function maxipkLulus($status, $tahun)
     {
 
         $array_base = $this->getallipkMhs();
-        $mhsAktif = array_filter($array_base, function ($var) use ($status) {
-            return ($var['Status Mahasiswa'] == $status);
+        $mhsAktif = array_filter($array_base, function ($var) use ($status, $tahun) {
+            return ($var['Status Mahasiswa'] == $status and $var['Angkatan'] == $tahun);
         });
         $value = max(array_column($mhsAktif, 'IPK'));
         $maxIPK = array_filter($mhsAktif, function ($var) use ($value) {
@@ -105,11 +105,11 @@ class Mahasiswa_model extends CI_Model
         return $maxIPK;
     }
 
-    public function minipkAktif($status)
+    public function minipkAktif($status, $tahun)
     {
         $array_base = $this->getallipkMhs();
-        $mhsAktif = array_filter($array_base, function ($var) use ($status) {
-            return ($var['Status Mahasiswa'] == $status);
+        $mhsAktif = array_filter($array_base, function ($var) use ($status, $tahun) {
+            return ($var['Status Mahasiswa'] == $status and $var['Angkatan'] == $tahun);
         });
         $value = min(array_column($mhsAktif, 'IPK'));
         $minIPK = array_filter($mhsAktif, function ($var) use ($value) {
@@ -117,11 +117,11 @@ class Mahasiswa_model extends CI_Model
         });
         return $minIPK;
     }
-    public function minipkLulus($status)
+    public function minipkLulus($status, $tahun)
     {
         $array_base = $this->getallipkMhs();
-        $mhsAktif = array_filter($array_base, function ($var) use ($status) {
-            return ($var['Status Mahasiswa'] == $status);
+        $mhsAktif = array_filter($array_base, function ($var) use ($status, $tahun) {
+            return ($var['Status Mahasiswa'] == $status and $var['Angkatan'] == $tahun);
         });
         $value = min(array_column($mhsAktif, 'IPK'));
         $minIPK = array_filter($mhsAktif, function ($var) use ($value) {

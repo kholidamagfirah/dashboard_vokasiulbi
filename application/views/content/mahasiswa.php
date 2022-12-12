@@ -1,5 +1,29 @@
 <!-- Row -->
 <div class="row mb-3">
+    <div class="col-lg-12">
+        <!-- Select2 -->
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <form action="<?= base_url('dashboard/mahasiswa') ?>" method="POST">
+                        <label for="select2Single">Pilih Tahun Akademik</label>
+                        <select class="form-control form-control-sm mb-3" name="tahun" id="select2Single">
+                            <option value="" selected>Tahun Akademik</option>
+                            <?php foreach ($angkatan as $ak) : ?>
+                                <option value="<?= $ak["Angkatan"] ?>"><?= $ak["Angkatan"]; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                </div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <?php if (count($maxIpkLulus) > 1) : ?>
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -9,7 +33,7 @@
                         <div class="col mr-2">
                             <?php $i = 1 ?>
                             <?php foreach ($maxIpkLulus as $upIPK) : ?>
-                                <div class="text-xs font-weight-bold text-uppercase mb-1">IPK Tertinggi Lulusan</div>
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">IPK Tertinggi </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">IPK : <?= number_format($upIPK['IPK'], 2) ?></div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span> -->

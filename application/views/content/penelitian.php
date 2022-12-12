@@ -7,7 +7,7 @@
                 <div class="row align-items-center">
                     <div class="col mr-2">
                         <?php foreach ($maxsinta3score as $maxsinta3) : ?>
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Sinta 3 Score Terbanyak</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Score Sinta 3 Tahun Tertinggi </div>
                             <div class="h6 mb-0 font-weight-bold text-gray-800"><?= $maxsinta3['nama']; ?></div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="h6 text-success mr-1">Total : <?= $maxsinta3['sinta_score_3_years']; ?></span>
@@ -29,7 +29,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <?php foreach ($minsinta3score as $minsinta3) : ?>
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Sinta 3 Score Tersedikit</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Score Sinta 3 Tahun Terendah</div>
                             <div class="h6 mb-0 font-weight-bold text-gray-800"><?= $minsinta3['nama']; ?></div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="h6 text-success mr-2">Total : <?= $minsinta3['sinta_score_3_years']; ?></span>
@@ -51,7 +51,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <?php foreach ($maxsinta3scoreproductif as $maxsintaproductif) : ?>
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Sinta 3 Productfivity Terbanyak</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Produktivitas Sinta 3 Tahun Tertinggi</div>
                             <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800"><?= $maxsintaproductif['nama']; ?></div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="h6 text-success mr-2"></i>Total : <?= $maxsintaproductif['sinta_score_3_years_productivity']; ?></span>
@@ -73,7 +73,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <?php foreach ($minsinta3scoreproductif as $minsintaproductif) : ?>
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Sinta 3 Productfivity Tersedikit</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Produktivitas Sinta 3 Tahun Terendah</div>
                             <div class="h6 mb-0 font-weight-bold text-gray-800"><?= $minsintaproductif['nama']; ?></div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="text-danger mr-2">Total : <?= $minsintaproductif['sinta_score_3_years_productivity']; ?></span>

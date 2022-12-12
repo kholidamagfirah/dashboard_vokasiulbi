@@ -2,14 +2,39 @@
 
 <!-- Row -->
 <div class="row mb-3">
+    <div class="col-lg-12">
+        <!-- Select2 -->
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+                <form action="<?= base_url('dashboard/dosen') ?>" method="POST">
+                    <div class="form-group">
+                        <label for="select2SinglePlaceholder">Pilih Tahun Akademik</label>
+                        <select class="form-control form-control-sm mb-3" name="tahunajaran" id="select2SinglePlaceholder">
+                            <option value="">Pilih Tahun Akademik</option>
+                            <?php foreach ($tahunID as $idtahun) : ?>
+                                <option value="<?= $idtahun['ID Tahun Akademik'] ?>"><?= $idtahun['Nama Tahun Akademik']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- Earnings (Monthly) Card Example -->
+    <?php if(count($prodisksterkecil) == 1): ?>
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-body">
                 <div class="row align-items-center">
                     <?php foreach ($prodisksterkecil as $minprodi) : ?>
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">SKS Prodi Terendah</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Prodi Terendah</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $minprodi['Total SKS']; ?> sks</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span> -->
@@ -24,6 +49,7 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
     <!-- Earnings (Annual) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
@@ -31,7 +57,7 @@
                 <div class="row no-gutters align-items-center">
                     <?php foreach ($prodisksterbanyak as $maxprodi) : ?>
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">SKS Prodi Tertinggi</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Prodi Tertinggi</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $maxprodi['Total SKS']; ?> sks</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span> -->
@@ -54,7 +80,7 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-uppercase mb-1">SKS Dosen Terendah</div>
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Dosen Terendah</div>
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $minDosen['Total SKS']; ?></div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span> -->
@@ -75,8 +101,8 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">SKS Dosen Terendah</div>
-                            <div class="mt-2 mb-0 text-muted text-xs">Beberapa Dosen Memiliki nilai sks Terendah</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Dosen Terendah</div>
+                            <div class="mt-2 mb-0 text-muted text-xs">Beberapa Dosen Memiliki nilai Beban Pengajaran Terendah</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span> -->
                                 <span><a href="<?= base_url('dashboard/misksDosen') ?>"><button class="btn btn-primary btn-sm">Lihat Data</button></a></span>
@@ -98,7 +124,7 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-uppercase mb-1">SKS Dosen Tertinggi</div>
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Dosen Tertinggi</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $dosen['Total SKS']; ?> sks</div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <span><?= $dosen['Nama Dosen']  ?></span>
@@ -124,18 +150,18 @@
             <div class="card-body">
                 <form action="<?= base_url('dashboard/dosen') ?>" method="POST">
                     <div class="form-group">
-                        <label for="select2SinglePlaceholder">Pilih Program Study</label>
+                        <label for="select2SinglePlaceholder">Pilih Program Studi</label>
                         <select class="form-control form-control-sm mb-3" name="prodiID" id="select2SinglePlaceholder">
-                            <option value="">Program Study</option>
+                            <option value="">Program Studi</option>
                             <?php foreach ($Nama_Prodi as $idprodi) : ?>
                                 <option value="<?= $idprodi['ID Prodi'] ?>"><?= $idprodi['Nama Prodi']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="select2SinglePlaceholder">Pilih Program Study</label>
+                        <label for="select2SinglePlaceholder">Pilih Tahun Akademik </label>
                         <select class="form-control form-control-sm mb-3" name="tahunID" id="select2SinglePlaceholder">
-                            <option value="">Program Study</option>
+                            <option value="">Pilih Tahun Akademik</option>
                             <?php foreach ($tahunID as $idtahun) : ?>
                                 <option value="<?= $idtahun['ID Tahun Akademik'] ?>"><?= $idtahun['Nama Tahun Akademik']; ?></option>
                             <?php endforeach; ?>
@@ -218,7 +244,7 @@
     <div class="col-lg-12">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Data SKS Dosen Per Prodi</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Data Beban Pengajaran Dosen Per Prodi</h6>
             </div>
             <div class="card-body">
                 <div class="chart-bar">

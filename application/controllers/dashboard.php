@@ -73,6 +73,7 @@ class Dashboard extends CI_Controller
     {
         $nama_prodi = $this->input->post('prodi');
         $angkatan = $this->input->post('angkatan');
+        $tahun = $this->input->post('tahun');
         $status_mhs = 'Aktif';
         $data['judul'] = 'Mahasiswa';
         $data['judul_halaman'] = 'Grafik IPK Tertinggi Prodi Dari Setiap Angkatan';
@@ -88,13 +89,16 @@ class Dashboard extends CI_Controller
         } else {
             $data['LabelCart'] = 'Perkembangan IPK Tertinggi Prodi ' . $nama_prodi;
         }
-        $data['LabelCartall'] = 'Ipk Tertinggi Dari Semua Jurusan Angkatan ' . $angkatan;
+        if ($tahun == null) {
+            $tahun = '2021';
+        }
+        $data['LabelCartall'] = 'Ipk Tertinggi Dari Semua Prodi Angkatan ' . $angkatan;
         $data["ipk"] = $this->Mahasiswa_model->getipkbyprodi($nama_prodi, $status_mhs);
         $data['maxipkallprodi'] = $this->Mahasiswa_model->maxIpkAll($angkatan);
-        $data['maxIpkAktif'] = $this->Mahasiswa_model->maxipkAktif('Aktif');
-        $data['maxIpkLulus'] = $this->Mahasiswa_model->maxipkLulus('Lulus');
-        $data['minIPKaktif'] = $this->Mahasiswa_model->minipkAktif('Aktif');
-        $data['minIPKlulus'] = $this->Mahasiswa_model->minipkLulus('Lulus');
+        $data['maxIpkAktif'] = $this->Mahasiswa_model->maxipkAktif('Aktif', $tahun);
+        $data['maxIpkLulus'] = $this->Mahasiswa_model->maxipkLulus('Lulus', $tahun);
+        $data['minIPKaktif'] = $this->Mahasiswa_model->minipkAktif('Aktif', $tahun);
+        $data['minIPKlulus'] = $this->Mahasiswa_model->minipkLulus('Lulus', $tahun);
         // echo "<pre>";
         // var_dump($data["ipk"][0]);
         // echo "<pre>";
@@ -163,15 +167,18 @@ class Dashboard extends CI_Controller
     public function dosen()
     {
         $array = $this->Dosen_model->getalldosen();
+        $tahunajaran = $this->input->post('tahunajaran'); // or Finance etc.
         $filterBy = $this->input->post('tahunID'); // or Finance etc.
-        $filterByProdi = $this->input->post('prodiID'); // or Finance etc.
-        $maxtahun = max(array_column($array, 'ID Tahun Akademik'));
+        $filterByProdi = $this->input->post('prodiID');
+        if ($tahunajaran == null) {
+            $tahunajaran = '20211';
+        }
 
         $new = array_filter($array, function ($var) use ($filterBy) {
             return ($var['ID Tahun Akademik'] == $filterBy);
         });
-        $maxtahunid = array_filter($array, function ($var) use ($maxtahun) {
-            return ($var['ID Tahun Akademik'] == $maxtahun);
+        $maxtahunid = array_filter($array, function ($var) use ($tahunajaran) {
+            return ($var['ID Tahun Akademik'] == $tahunajaran);
         });
         $new2 = array_filter($array, function ($var) use ($filterByProdi, $filterBy) {
             return ($var['ID Prodi'] == $filterByProdi and $var['ID Tahun Akademik'] == $filterBy);
@@ -179,11 +186,11 @@ class Dashboard extends CI_Controller
 
         $minsks = min(array_column($maxtahunid, 'Total SKS'));
         $maxsks = max(array_column($maxtahunid, 'Total SKS'));
-        $minsks_dosen = array_filter($array, function ($var) use ($minsks, $maxtahun) {
-            return ($var['Total SKS'] == $minsks and $var['ID Tahun Akademik'] == $maxtahun);
+        $minsks_dosen = array_filter($array, function ($var) use ($minsks, $tahunajaran) {
+            return ($var['Total SKS'] == $minsks and $var['ID Tahun Akademik'] == $tahunajaran);
         });
-        $maxsks_dosen = array_filter($array, function ($var) use ($maxsks, $maxtahun) {
-            return ($var['Total SKS'] == $maxsks and $var['ID Tahun Akademik'] == $maxtahun);
+        $maxsks_dosen = array_filter($array, function ($var) use ($maxsks, $tahunajaran) {
+            return ($var['Total SKS'] == $maxsks and $var['ID Tahun Akademik'] == $tahunajaran);
         });
         $total_sks = array_reduce($new, function ($carry, $item) {
             if (!isset($carry[$item['ID Prodi']])) {
@@ -228,25 +235,21 @@ class Dashboard extends CI_Controller
             }
             return $carry;
         });
-        // foreach ($array as $row) {
-        //     $tahun[] = $row['ID Tahun Akademik'];
-        //     $semester[] = $row['Nama Tahun Akademik'];
-        // }
-        $data['labelgraph'] = 'Total SKS Tahun Ajaran ' . $filterBy;
-        $data['labelgraph_sksdosen'] = 'Total SKS Tahun Ajaran ' . $filterBy;
+
+        $data['labelgraph'] = 'Beban Pengajaran Tahun Akademik ' . $filterBy;
+        $data['labelgraph_sksdosen'] = 'Beban Pengajaran Tahun Akademik ' . $filterBy;
         $data['judul'] = 'Dashboard Dekanat';
-        $data['judul_halaman'] = 'Jumlah SKS Dosen';
+        $data['judul_halaman'] = 'Jumlah Beban Pengajaran Dosen';
         $data['tahunID'] = $tahun;
         $data['sks_dosen'] = $new2;
         $data['prodisksterbanyak'] = $getmaxsksprodi;
         $data['prodisksterkecil'] = $getminsksprodi;
-        // $data['nama_tahun'] = array_unique($semester);
         $data['prodi'] = $total_sks;
         $data['Nama_Prodi'] = $prodi;
         $data['maxsksDosen'] = $maxsks_dosen;
         $data['minsksDosen'] = $minsks_dosen;
         // echo "<pre>";
-        // var_dump($maxsks_dosen);
+        // var_dump($data['maxsksDosen']);
         // echo "<pre>";
         // die;
         $this->load->view('templates/header', $data);
