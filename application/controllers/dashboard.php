@@ -6,7 +6,7 @@ class Dashboard extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Penelitian_Model');
+        $this->load->model('Penelitian_model');
         $this->load->model('Mahasiswa_model');
         $this->load->model('Dosen_model');
     }

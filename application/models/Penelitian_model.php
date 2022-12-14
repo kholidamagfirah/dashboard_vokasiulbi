@@ -2,7 +2,7 @@
 
 use GuzzleHttp\Client;
 
-class Penelitian_Model extends CI_Model
+class Penelitian_model extends CI_Model
 {
     private $_client;
 
