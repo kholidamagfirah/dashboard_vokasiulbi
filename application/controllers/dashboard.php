@@ -26,11 +26,11 @@ class Dashboard extends CI_Controller
     {
         $data['judul'] = 'Penelitian';
         $data['judul_halaman'] = 'Penelitian Dosen';
-        $data['maxsinta3score'] = $this->Penelitian_Model->maxsinta3score();
-        $data['minsinta3score'] = $this->Penelitian_Model->minsinta3score();
-        $data['maxsinta3scoreproductif'] = $this->Penelitian_Model->maxsinta3scoreproductif();
-        $data['minsinta3scoreproductif'] = $this->Penelitian_Model->minsinta3scoreproductif();
-        $data['general'] = $this->Penelitian_Model->minmaxbase();
+        $data['maxsinta3score'] = $this->Penelitian_model->maxsinta3score();
+        $data['minsinta3score'] = $this->Penelitian_model->minsinta3score();
+        $data['maxsinta3scoreproductif'] = $this->Penelitian_model->maxsinta3scoreproductif();
+        $data['minsinta3scoreproductif'] = $this->Penelitian_model->minsinta3scoreproductif();
+        $data['general'] = $this->Penelitian_model->minmaxbase();
         $data['category'] = array_keys($data['general'][0]);
 
 
@@ -50,8 +50,8 @@ class Dashboard extends CI_Controller
             $nama_prodi = $nama_prodi;
         }
         $data['chartall'] = $datageneralarray;
-        $data["nama_prodi"] = $this->Penelitian_Model->getInfoPenelitianProdi($nama_prodi);
-        $data['key'] = $this->Penelitian_Model->getallkey();
+        $data["nama_prodi"] = $this->Penelitian_model->getInfoPenelitianProdi($nama_prodi);
+        $data['key'] = $this->Penelitian_model->getallkey();
         if ($nama_prodi == null) {
             $data['LabelCart'] = 'Silahkan Pilih Program Studi Terlebih dahulu';
         } else {
