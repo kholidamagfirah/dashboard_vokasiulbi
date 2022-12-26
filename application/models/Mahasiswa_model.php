@@ -16,8 +16,7 @@ class Mahasiswa_model extends CI_Model
     public function getallipkMhs()
     {
         $response = $this->_client->request('GET', 'ipk');
-        $result = json_decode($response->getBody()->getContents(), true);
-        return $result['data'];
+        return json_decode($response->getBody()->getContents(), true)['data'];
     }
     // and $var['Status Mahasiswa'] == $status
     public function getipkbyprodi($filterByProdi)
@@ -63,18 +62,156 @@ class Mahasiswa_model extends CI_Model
             return @$a['IPK'] > $b['IPK'] ? $a : $b;
         });
 
-        $hasil = array($data1, $data2, $data3, $data4);
-        return $hasil;
+        return array($data1, $data2, $data3, $data4);
+    }
+    public function array_multidimensional_unique($input)
+    {
+        $output = array_map(
+            "unserialize",
+            array_unique(array_map("serialize", $input))
+        );
+        return $output;
     }
 
     public function maxIpkAll($ankatan)
     {
         $array_base = $this->getallipkMhs();
-        $ang2021 = array_filter($array_base, function ($var) use ($ankatan) {
-            return ($var['Angkatan'] == $ankatan);
+        // $maxipk = max(array_column($array_base, 'IPK'));
+        // $ang2021 = array_filter($array_base, function ($var) use ($ankatan) {
+        //     return ($var['Angkatan'] == $ankatan);
+        // });
+        // $namaProdi = array_values(array_unique(array_column($ang2021, 'Nama Prodi')));
+        // $hasil = array_intersect_key($array_base, $namaProdi);
+        $d3mp = 'D3 Manajemen Pemasaran';
+        $d4mp = 'D4 Manajemen Perusahaan';
+        $d4lb = 'D4 Logistik Bisnis';
+        $D3ak = 'D3 Akuntansi';
+        $D3al = 'D3 Administrasi Logistik';
+        $D4ak = 'D4 Akuntansi Keuangan';
+        $D3mi = 'D3 Manajemen Informatika';
+        $d4ti = 'D4 Teknik Informatika';
+        $d4ln = 'D4 Logistik Niaga';
+        $d3ti = 'D3 Teknik Informatika';
+
+        // 1. get max ipk for prodi d3 manajemen pemasaran
+        $arrayd3mp = array_filter($array_base, function ($var) use ($d3mp, $ankatan) {
+            return ($var['Nama Prodi'] == $d3mp and $var['Angkatan'] == $ankatan);
         });
-        $namaProdi = array_unique(array_column($ang2021, 'Nama Prodi'));
-        $hasil = array_intersect_key($array_base, $namaProdi);
+
+        $maxd3mp = max(array_column($arrayd3mp, 'IPK'));
+        $arrayd3mpmaxipk = array_filter($array_base, function ($var) use ($maxd3mp) {
+            return ($var['IPK'] == $maxd3mp);
+        });
+        $prodid3mp = array_values($arrayd3mpmaxipk)[0];
+
+        // 2. get max ipk for prodi d4 manajemen pemasaran
+        $arrayd4mp = array_filter($array_base, function ($var) use ($d4mp, $ankatan) {
+            return ($var['Nama Prodi'] == $d4mp and $var['Angkatan'] == $ankatan);
+        });
+
+        $maxd4mp = max(array_column($arrayd4mp, 'IPK'));
+        $arrayd4mpmaxipk = array_filter($arrayd4mp, function ($var) use ($maxd4mp) {
+            return ($var['IPK'] == $maxd4mp);
+        });
+        $prodid4mp = array_values($arrayd4mpmaxipk)[0];
+
+        // 3. get max ipk for prodi d4 logistik bisnis
+        $arrayd4lb = array_filter($array_base, function ($var) use ($d4lb, $ankatan) {
+            return ($var['Nama Prodi'] == $d4lb and $var['Angkatan']);
+        });
+
+        $maxd4lb = max(array_column($arrayd4lb, 'IPK'));
+        $arrayd4lbmaxipk = array_filter($arrayd4lb, function ($var) use ($maxd4lb) {
+            return ($var['IPK'] == $maxd4lb);
+        });
+        $prodid4lb = array_values($arrayd4lbmaxipk)[0];
+
+        // 4. get max ipk for prodi d3 akutansi
+        $arrayd3ak = array_filter($array_base, function ($var) use ($D3ak, $ankatan) {
+            return ($var['Nama Prodi'] == $D3ak and $var['Angkatan'] == $ankatan);
+        });
+
+        $maxd3ak = max(array_column($arrayd3ak, 'IPK'));
+        $arrayd3akmaxipk = array_filter($array_base, function ($var) use ($maxd3ak) {
+            return ($var['IPK'] == $maxd3ak);
+        });
+        $prodid3ak = array_values($arrayd3akmaxipk)[0];
+
+
+        // 5. get max ipk for prodi D3 Administrasi Logistik
+        $arrayd3al = array_filter($array_base, function ($var) use ($D3al, $ankatan) {
+            return ($var['Nama Prodi'] == $D3al and $var['Angkatan'] == $ankatan);
+        });
+
+        $maxd3al = max(array_column($arrayd3al, 'IPK'));
+        $arrayd3almaxipk = array_filter($arrayd3al, function ($var) use ($maxd3al) {
+            return ($var['IPK'] == $maxd3al);
+        });
+        $prodid3al = array_values($arrayd3almaxipk)[0];
+
+
+        // 6. get max ipk for prodi d3 manajemen informatika
+        $arrayD3mi = array_filter($array_base, function ($var) use ($D3mi, $ankatan) {
+            return ($var['Nama Prodi'] == $D3mi and $var['Angkatan'] == $ankatan);
+        });
+
+        $maxD3mi = max(array_column($arrayD3mi, 'IPK'));
+        $arrayD3mimaxipk = array_filter($array_base, function ($var) use ($maxD3mi) {
+            return ($var['IPK'] == $maxD3mi);
+        });
+        $prodid3mi = array_values($arrayD3mimaxipk)[0];
+
+
+        // 7. get max ipk for prodi d4 teknik informat4ti
+        $arrayd4ti = array_filter($array_base, function ($var) use ($d4ti, $ankatan) {
+            return ($var['Nama Prodi'] == $d4ti and $var['Angkatan'] == $ankatan);
+        });
+
+        $maxd4ti = max(array_column($arrayd4ti, 'IPK'));
+        $arrayd4timaxipk = array_filter($arrayd4ti, function ($var) use ($maxd4ti) {
+            return ($var['IPK'] == $maxd4ti);
+        });
+        $prodid4ti = array_values($arrayd4timaxipk)[0];
+
+
+        // 8. get max ipk for prodi D4 Logisti Ni4ln
+        $arrayd4ln = array_filter($array_base, function ($var) use ($d4ln, $ankatan) {
+            return ($var['Nama Prodi'] == $d4ln and $var['Angkatan'] == $ankatan);
+        });
+
+        $maxd4ln = max(array_column($arrayd4ln, 'IPK'));
+        $arrayd4lnmaxipk = array_filter($arrayd4ln, function ($var) use ($maxd4ln) {
+            return ($var['IPK'] == $maxd4ln);
+        });
+        $prodid4ln = array_values($arrayd4lnmaxipk)[0];
+
+
+        // 9. get max ipk for prodi D3 Teknik Informatiti
+        $arrayd3ti = array_filter($array_base, function ($var) use ($d3ti, $ankatan) {
+            return ($var['Nama Prodi'] == $d3ti and $var['Angkatan'] == $ankatan);
+        });
+
+        $maxd3ti = max(array_column($arrayd3ti, 'IPK'));
+        $arrayd3timaxipk = array_filter($arrayd3ti, function ($var) use ($maxd3ti) {
+            return ($var['IPK'] == $maxd3ti);
+        });
+        $prodid3ti = array_values($arrayd3timaxipk)[0];
+
+
+        // 10. get max ipk for prodi D4 Akuntasi Keuangan
+        $arrayd4ak = array_filter($array_base, function ($var) use ($D4ak, $ankatan) {
+            return ($var['Nama Prodi'] == $D4ak and $var['Angkatan'] == $ankatan);
+        });
+
+        $maxd4ak = max(array_column($arrayd4ak, 'IPK'));
+        $arrayd4akmaxipk = array_filter($arrayd4ak, function ($var) use ($maxd4ak) {
+            return ($var['IPK'] == $maxd4ak);
+        });
+        $prodid4ak = array_values($arrayd4akmaxipk)[0];
+
+        $hasil = array($prodid3ak, $prodid3al, $prodid3mi, $prodid3mp, $prodid3ti, $prodid4lb, $prodid4ln, $prodid4mp, $prodid4ti, $prodid4ak);
+
+
         return $hasil;
     }
 

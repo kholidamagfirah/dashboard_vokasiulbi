@@ -11,9 +11,13 @@
                     <form action="<?= base_url('dashboard/mahasiswa') ?>" method="POST">
                         <label for="select2Single">Pilih Tahun Akademik</label>
                         <select class="form-control form-control-sm mb-3" name="tahun" id="select2Single">
-                            <option value="" selected>Tahun Akademik</option>
+                            <?php if ($dropdown_tahun == null) : ?>
+                                <option value="" selected disabled>Pilih Tahun Angkatan</option>
+                            <?php else : ?>
+                                <option value="" selected disabled><?= $dropdown_tahun; ?></option>
+                            <?php endif; ?>
                             <?php foreach ($angkatan as $ak) : ?>
-                                <option value="<?= $ak["Angkatan"] ?>"><?= $ak["Angkatan"]; ?></option>
+                                <option value="<?= $ak["Angkatan"] ?>" selected><?= $ak["Angkatan"]; ?></option>
                             <?php endforeach; ?>
                         </select>
                 </div>
@@ -62,7 +66,8 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">IPK : <?= number_format($upIPK['IPK'], 2) ?></div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span> -->
-                                    <span><?= $upIPK['Nama Mahasiswa']; ?></span>
+                                    <span><?= $upIPK['Nama Mahasiswa']; ?></span><br>
+                                    <span><?= $upIPK['Nama Prodi']; ?></span>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -112,7 +117,8 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><?= number_format($upIPKaktif['IPK'], 2); ?></div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span> -->
-                                    <span><?= $upIPKaktif['Nama Mahasiswa']; ?></span>
+                                    <span><?= $upIPKaktif['Nama Mahasiswa']; ?></span><br>
+                                    <span><?= $upIPKaktif['Nama Prodi']; ?></span>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -136,7 +142,8 @@
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">IPK : <?= number_format($sksrendah['IPK'], 2); ?></div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span> -->
-                                    <span><?= $sksrendah['Nama Mahasiswa']; ?></span>
+                                    <span><?= $sksrendah['Nama Mahasiswa']; ?></span><br>
+                                    <span><?= $sksrendah['Nama Prodi']; ?></span>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -186,7 +193,8 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><?= number_format($pemalas['IPK']); ?></div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <!-- <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span> -->
-                                    <span><?= $pemalas['Nama Mahasiswa']; ?></span>
+                                    <span><?= $pemalas['Nama Mahasiswa']; ?></span><br>
+                                    <span><?= $pemalas['Nama Prodi']; ?></span>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -237,7 +245,11 @@
                     <form action="<?= base_url('dashboard/mahasiswa') ?>" method="POST">
                         <label for="select2Single">Pilih Angkatan</label>
                         <select class="form-control form-control-sm mb-3" name="angkatan" id="select2Single">
-                            <option value="" selected>Angkatan</option>
+                            <?php if ($dropdown_angkatan == null) : ?>
+                                <option value="" selected disabled>Pilih Angkatan</option>
+                            <?php else : ?>
+                                <option value="" selected disabled><?= $dropdown_angkatan; ?></option>
+                            <?php endif; ?>
                             <?php foreach ($angkatan as $ak) : ?>
                                 <option value="<?= $ak["Angkatan"] ?>"><?= $ak["Angkatan"]; ?></option>
                             <?php endforeach; ?>
@@ -246,9 +258,13 @@
                 <div class="form-group">
                     <label for="select2SinglePlaceholder">Pilih Program Study</label>
                     <select class="form-control form-control-sm mb-3" name="prodi" id="select2SinglePlaceholder">
-                        <option value="">Program Study</option>
+                        <?php if ($dropdown_prodi == null) : ?>
+                            <option value="" selected disabled>Pilih Program Studi</option>
+                        <?php else : ?>
+                            <option value="" selected disabled><?= $dropdown_prodi; ?></option>
+                        <?php endif; ?>
                         <?php foreach ($nama_prodi as $prodi) : ?>
-                            <option value="<?= $prodi["Nama Prodi"]; ?>"><?= $prodi["Nama Prodi"]; ?></option>
+                            <option value="<?= $prodi["Nama Prodi"]; ?>" selected><?= $prodi["Nama Prodi"]; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -269,7 +285,7 @@
                 <div class="chart-area">
                     <canvas id="mahasiswaIpkAll"></canvas>
                 </div>
-           <!--     <hr>
+                <!--     <hr>
                 Styling for the area chart can be found in the
                 <code>/js/demo/chart-area-demo.js</code> file. -->
             </div>
@@ -284,7 +300,7 @@
                 <div class="chart-area">
                     <canvas id="mahasiswaChart"></canvas>
                 </div>
-              <!--  <hr>
+                <!--  <hr>
                 Styling for the area chart can be found in the
                 <code>/js/demo/chart-area-demo.js</code> file. -->
             </div>

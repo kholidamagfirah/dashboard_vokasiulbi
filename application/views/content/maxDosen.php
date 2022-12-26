@@ -12,7 +12,7 @@
                         <tr>
                             <th>Nama Dosen</th>
                             <th>Total SKS</th>
-                            <th>Tahun Ajaran</th>
+                            <th>Nama Prodi</th>
                         </tr>
                     </thead>
                     <tbody>
