@@ -183,7 +183,7 @@
                 <h6 class="m-0 font-weight-bold text-primary"></h6>
             </div>
             <div class="card-body">
-                <form action="<?= base_url('dashboard/penelitian') ?>" method="POST">
+                <form action="<?= base_url('index.php/dashboard/penelitian') ?>" method="POST">
                     <div class="form-group">
                         <label for="select2SinglePlaceholder">Pilih Kategori</label>
                         <select class="form-control form-control-sm mb-3" name="category" id="select2SinglePlaceholder">
@@ -262,6 +262,7 @@
             </div>
         </div>
     </div>
+
     <!-- Area Charts -->
     <div class="col-lg-12">
         <div class="card mb-4">
@@ -281,7 +282,7 @@
     <div class="col-lg-12">
         <div class="card mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Data Tabel</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Data Tabel Penelitian Dosen</h6>
             </div>
             <div class="table-responsive p-3">
                 <table class="table align-items-center table-flush" id="dataTable">

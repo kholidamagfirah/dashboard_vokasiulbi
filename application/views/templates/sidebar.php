@@ -3,7 +3,7 @@
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard') ?>">
-              <!--  <div class="sidebar-brand-icon">
+                <!--  <div class="sidebar-brand-icon">
                     <img src="<?= base_url('assets/ruang-admin') ?>/img/logo/logo2.png">
                 </div>-->
                 <div class="sidebar-brand-text mx-3">E-MONITORING SEKOLAH VOKASI</div>
@@ -21,16 +21,37 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap" aria-expanded="true" aria-controls="collapseBootstrap">
                     <i class="far fa-fw fa-window-maximize"></i>
-                    <span>Informasi</span>
+                    <span>Kinerja Dosen</span>
                 </a>
                 <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Kumpulan Dashboard</h6>
-                        <a class="collapse-item" href="<?= base_url('dashboard/mahasiswa') ?>">Mahasiswa (IPK)</a>
-                        <a class="collapse-item" href="<?= base_url('dashboard/dosen') ?>">Dosen (Jumlah SKS)</a>
-                        <a class="collapse-item" href="<?= base_url('dashboard/penelitian') ?>">Penelitian Dosen</a>
+                        <a class="collapse-item" href="<?= base_url('index.php/dashboard/dosen') ?>">Beban Pengajaran</a>
+                        <a class="collapse-item" href="<?= base_url('index.php/dashboard/penelitian') ?>">Publikasi Dosen</a>
                     </div>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
+                    <i class="fab fa-fw fa-wpforms"></i>
+                    <span>Kinerja Mahasiswa</span>
+                </a>
+                <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="<?= base_url('index.php/dashboard/mahasiswa') ?>">Prestasi Akademik</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href=" <?= base_url('index.php/dashboard/pertumbuhanmahasiswa') ?>">
+                    <i class="fas fa-angle-double-up"></i>
+                    <span>Pertumbuhan Mahasiswa</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href=" <?= base_url('index.php/auth/logout') ?>">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
+                </a>
             </li>
             <hr class="sidebar-divider">
             <div class="version" id="version-ruangadmin"></div>

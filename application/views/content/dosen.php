@@ -9,14 +9,14 @@
                 <h6 class="m-0 font-weight-bold text-primary"></h6>
             </div>
             <div class="card-body">
-                <form action="<?= base_url('dashboard/dosen') ?>" method="POST">
+                <form action="<?= base_url('index.php/dashboard/dosen') ?>" method="POST">
                     <div class="form-group">
                         <label for="select2SinglePlaceholder">Pilih Tahun Akademik</label>
                         <select class="form-control form-control-sm mb-3" name="tahunajaran" id="select2SinglePlaceholder">
-                            <?php if ($dropdown_tahunajaran == null) : ?>
+                            <?php if ($label_summary == null) : ?>
                                 <option value="" disabled selected>Pilih Tahun Akademik</option>
                             <?php else : ?>
-                                <option value="" disabled selected><?= $dropdown_tahunajaran; ?></option>
+                                <option value="" disabled selected><?= $label_summary; ?> (Selected)</option>
                             <?php endif; ?>
                             <?php foreach ($tahunID as $idtahun) : ?>
                                 <option value="<?= $idtahun['ID Tahun Akademik'] ?>"><?= $idtahun['Nama Tahun Akademik']; ?></option>
@@ -38,10 +38,10 @@
                     <div class="row align-items-center">
                         <?php foreach ($prodisksterkecil as $minprodi) : ?>
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Prodi Terendah</div>
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Prodi Terendah </div>
+                                <span class="text-primary mt-2 text-xs"></i><?= $label_summary; ?></span>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $minprodi['Total SKS']; ?> sks</div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
-                                    <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span> -->
                                     <span><?= $minprodi['Nama Prodi']; ?></span>
                                 </div>
                             </div>
@@ -62,6 +62,7 @@
                     <?php foreach ($prodisksterbanyak as $maxprodi) : ?>
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Prodi Tertinggi</div>
+                            <span class="text-primary mt-2 text-xs"></i><?= $label_summary; ?></span>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $maxprodi['Total SKS']; ?> sks</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span> -->
@@ -85,6 +86,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Dosen Terendah</div>
+                                <span class="text-primary mt-2 text-xs"></i><?= $label_summary; ?></span>
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $minDosen['Total SKS']; ?></div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span> -->
@@ -106,10 +108,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Dosen Terendah</div>
+                            <span class="text-primary mt-2 text-xs"></i><?= $label_summary; ?></span>
                             <div class="mt-2 mb-0 text-muted text-xs">Beberapa Dosen Memiliki nilai Beban Pengajaran Terendah</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span> -->
-                                <span><a href="<?= base_url('dashboard/misksDosen') ?>"><button class="btn btn-primary btn-sm">Lihat Data</button></a></span>
+                                <span><a href="<?= base_url('index.php/dashboard/misksDosen') ?>"><button class="btn btn-primary btn-sm">Lihat Data</button></a></span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -129,6 +132,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Dosen Tertinggi</div>
+                                <span class="text-primary mt-2 text-xs"></i><?= $label_summary; ?></span>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $dosen['Total SKS']; ?> sks</div>
                                 <div class="mt-2 mb-0 text-muted text-xs">
                                     <span><?= $dosen['Nama Dosen']  ?></span>
@@ -149,10 +153,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Beban Pengajaran Dosen Tertinggi</div>
+                            <span class="text-primary mt-2 text-xs"></i><?= $label_summary; ?></span>
                             <div class="mt-2 mb-0 text-muted text-xs">Beberapa Dosen Memiliki nilai Beban Pengajaran Tertinggi</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span> -->
-                                <span><a href="<?= base_url('dashboard/maxsksDosen') ?>"><button class="btn btn-primary btn-sm">Lihat Data</button></a></span>
+                                <span><a href="<?= base_url('index.php/dashboard/maxsksDosen') ?>"><button class="btn btn-primary btn-sm">Lihat Data</button></a></span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -165,39 +170,6 @@
     <?php endif; ?>
 </div>
 <div class="row">
-    <div class="col-lg-12">
-        <!-- Select2 -->
-        <div class="card mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary"></h6>
-            </div>
-            <div class="card-body">
-                <form action="<?= base_url('dashboard/dosen') ?>" method="POST">
-                    <div class="form-group">
-                        <label for="select2SinglePlaceholder">Pilih Program Studi</label>
-                        <select class="form-control form-control-sm mb-3" name="prodiID" id="select2SinglePlaceholder">
-                            <option value="" disabled selected><?= $dropdown_prodi; ?></option>
-                            <?php foreach ($Nama_Prodi as $idprodi) : ?>
-                                <option value="<?= $idprodi['ID Prodi'] ?>" selected><?= $idprodi['Nama Prodi']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="select2SinglePlaceholder">Pilih Tahun Akademik </label>
-                        <select class="form-control form-control-sm mb-3" name="tahunID" id="select2SinglePlaceholder">
-                            <option value="" disabled selected><?= $dropdown_tahunid; ?></option>
-                            <?php foreach ($tahunID as $idtahun) : ?>
-                                <option value="<?= $idtahun['ID Tahun Akademik'] ?>"><?= $idtahun['Nama Tahun Akademik']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <!-- Area Charts -->
     <div class="col-lg-12">
         <div class="card mb-4">
@@ -217,7 +189,7 @@
     <div class="col-lg-12">
         <div class="card mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Data Tabel</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Data Beban Pengajaran Seluruh Program Studi</h6>
             </div>
             <?php if ($prodi != null) : ?>
                 <div class="table-responsive p-3">
@@ -264,11 +236,44 @@
             <?php endif; ?>
         </div>
     </div>
+    <div class="col-lg-12">
+        <!-- Select2 -->
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+                <form action="<?= base_url('index.php/dashboard/dosen') ?>" method="POST">
+                    <div class="form-group">
+                        <label for="select2SinglePlaceholder">Pilih Program Studi</label>
+                        <select class="form-control form-control-sm mb-3" name="prodiID" id="select2SinglePlaceholder">
+                            <option value="" disabled selected><?= $dropdown_prodi; ?> (Selected)</option>
+                            <?php foreach ($Nama_Prodi as $idprodi) : ?>
+                                <option value="<?= $idprodi['ID Prodi'] ?>" selected><?= $idprodi['Nama Prodi']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="select2SinglePlaceholder">Pilih Tahun Akademik </label>
+                        <select class="form-control form-control-sm mb-3" name="tahunID" id="select2SinglePlaceholder">
+                            <option value="" disabled selected><?= $label_summary; ?> (Selected)</option>
+                            <?php foreach ($tahunID as $idtahun) : ?>
+                                <option value="<?= $idtahun['ID Tahun Akademik'] ?>"><?= $idtahun['Nama Tahun Akademik']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- Bar Chart -->
     <div class="col-lg-12">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Data Beban Pengajaran Dosen Per Prodi</h6>
+                <h6 class="m-0 font-weight-bold text-primary"><?= $labelgraphdosen; ?></h6>
             </div>
             <div class="card-body">
                 <div class="chart-bar">
@@ -282,7 +287,7 @@
     <div class="col-lg-12">
         <div class="card mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Data Tabel</h6>
+                <h6 class="m-0 font-weight-bold text-primary"><?= $labeltabeldosen; ?></h6>
             </div>
             <?php if ($prodi != null) : ?>
                 <div class="table-responsive p-3">
@@ -319,7 +324,7 @@
                             <tr>
                                 <td colspan="3">
                                     <h4 class="card-title text-danger" style="text-align:center">
-                                        Silahkan isi tahun ID pada menu drodown
+                                        Silahkan isi Pilihan Prodi Pada menu drodown
                                     </h4>
                                 </td>
                             </tr>

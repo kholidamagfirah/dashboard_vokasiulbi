@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="card mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <a href="<?= base_url('dashboard/dosen') ?>"><button class="btn btn-primary">
+                <a href="<?= base_url('index.php/dashboard/dosen') ?>"><button class="btn btn-primary">
                         kembali</button></a>
                 <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
             </div>

@@ -14,9 +14,15 @@ class Dashboard extends CI_Controller
 
     public function index()
     {
+        if (!$this->session->userdata('email')) {
+            echo "<script>
+            alert('ooops  Anda Belum Login!! Silahkan Login');
+            window.location.href='auth';
+            </script>";
+        }
 
         $data['judul'] = 'Dashboard';
-        $data['judul_halaman'] = '<strong>DASHBOARD MONITORING KINERJA  </strong> ';
+        $data['judul_halaman'] = '<strong>DASHBOARD MONITORING KINERJA PROGRAM STUDI </strong> ';
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('index');
@@ -25,6 +31,12 @@ class Dashboard extends CI_Controller
 
     public function penelitian()
     {
+        if (!$this->session->userdata('email')) {
+            echo "<script>
+            alert('ooops  Anda Belum Login!! Silahkan Login');
+            window.location.href='auth';
+            </script>";
+        }
         $data['judul'] = 'Penelitian';
         $data['judul_halaman'] = 'Publikasi Dosen';
         $data['minciation_dosen'] = $this->Penelitian_model->minciation_dosen();
@@ -90,53 +102,68 @@ class Dashboard extends CI_Controller
 
     public function mahasiswa()
     {
-        if ($this->session->flashdata('maxIpkAktif') or $this->session->flashdata('maxIpkLulus') or $this->session->flashdata('minIPKaktif') or $this->session->flashdata('minIPKlulus')) {
-            // $this->session->unset_flashdata('maxIpkAktif');
-            // $this->session->unset_flashdata('maxIpkLulus');
-            // $this->session->unset_flashdata('minIPKaktif');
-            // $this->session->unset_flashdata('minIPKlulus');
-            $this->session->sess_destroy();
+        if (!$this->session->userdata('email')) {
+            echo "<script>
+            alert('ooops  Anda Belum Login!! Silahkan Login');
+            window.location.href='auth';
+            </script>";
         }
+        // if ($this->session->flashdata('maxIpkAktif') or $this->session->flashdata('maxIpkLulus') or $this->session->flashdata('minIPKaktif') or $this->session->flashdata('minIPKlulus')) {
+        //     // $this->session->unset_flashdata('maxIpkAktif');
+        //     // $this->session->unset_flashdata('maxIpkLulus');
+        //     // $this->session->unset_flashdata('minIPKaktif');
+        //     // $this->session->unset_flashdata('minIPKlulus');
+        //     $this->session->sess_destroy();
+        // }
 
         $nama_prodi = $this->input->post('prodi');
         $angkatan = $this->input->post('angkatan');
-        $tahun = $this->input->post('tahun');
         $status_mhs = 'Aktif';
         $data['judul'] = 'Mahasiswa';
         $data['judul_halaman'] = 'Grafik IPK Tertinggi Prodi Dari Setiap Angkatan';
         $data["nama_prodi"] = $this->Mahasiswa_model->getProdiName();
         $data["angkatan"] = $this->Mahasiswa_model->getAngkatan();
-        $data['dropdown_tahun'] = $tahun;
-        $data['dropdown_angkatan'] = $angkatan;
-        $data['dropdown_prodi'] = $nama_prodi;
         if ($angkatan == null) {
             $angkatan = '2021';
         } else {
             $angkatan = $angkatan;
         }
-        if ($nama_prodi == null) {
-            $data['LabelCart'] = 'Silahkan Pilih Program Studi Terlebih dahulu';
+        if ($nama_prodi != '') {
+            foreach ($data['nama_prodi'] as $equal) {
+                if ($equal['ID Prodi'] == $nama_prodi) {
+                    $fix_dropdown = $equal['Nama Prodi'];
+                }
+            }
         } else {
-            $data['LabelCart'] = 'Perkembangan IPK Tertinggi Prodi ' . $nama_prodi;
+            $fix_dropdown = 'Pilih Program Studi';
         }
-        if ($tahun == null) {
-            $tahun = '2021';
-        }
-        $data['LabelCartall'] = 'Ipk Tertinggi Dari Semua Jurusan Angkatan ' . $angkatan;
+        $data['dropdown_angkatan'] = $angkatan;
+        $data['dropdown_prodi'] = $fix_dropdown;
+        $data['LabelCartall'] = 'Ipk Rata-Rata PerProdi ' . $angkatan;
+        $data['labeltable'] = 'Data Tabel Ipk Tertinggi Dari Program Studi ' . $fix_dropdown . ' Angkatan ' . $angkatan;
         $data["ipk"] = $this->Mahasiswa_model->getipkbyprodi($nama_prodi, $status_mhs);
         $data['maxipkallprodi'] = $this->Mahasiswa_model->maxIpkAll($angkatan);
-        $data['maxIpkAktif'] = $this->Mahasiswa_model->maxipkAktif('Aktif', $tahun);
-        $data['maxIpkLulus'] = $this->Mahasiswa_model->maxipkLulus('Lulus', $tahun);
-        $data['minIPKaktif'] = $this->Mahasiswa_model->minipkAktif('Aktif', $tahun);
-        $data['minIPKlulus'] = $this->Mahasiswa_model->minipkLulus('Lulus', $tahun);
+        $data['maxIpkAktif'] = $this->Mahasiswa_model->maxipkAktif('Aktif', $angkatan);
+        $data['maxIpkLulus'] = $this->Mahasiswa_model->maxipkLulus('Lulus', $angkatan);
+        $data['minIPKaktif'] = $this->Mahasiswa_model->minipkAktif('Aktif', $angkatan);
+        $data['minIPKlulus'] = $this->Mahasiswa_model->minipkLulus('Lulus', $angkatan);
 
+        if ($data["ipk"] != null) {
+            if ($nama_prodi == null) {
+                $data['LabelCart'] = 'Silahkan Pilih Program Studi Terlebih dahulu';
+            } else {
+                $data['LabelCart'] = 'Perkembangan IPK Tertinggi Prodi ' . $fix_dropdown;
+            }
+        } else {
+            $data['LabelCart'] = 'Data Program Studi Angkatan ' . $angkatan . 'Tidak Ditemukan';
+        }
 
         $this->session->set_flashdata('maxIpkAktif', $data['maxIpkAktif']);
         $this->session->set_flashdata('maxIpkLulus', $data['maxIpkLulus']);
         $this->session->set_flashdata('minIPKaktif', $data['minIPKaktif']);
         $this->session->set_flashdata('minIPKlulus', $data['minIPKlulus']);
         // echo "<pre>";
-        // var_dump($data['maxipkallprodi']);
+        // var_dump($data['maxIpkAktif']);
         // echo "<pre>";
         // die;
         // $this->maxipkAktif($tahun);
@@ -153,6 +180,11 @@ class Dashboard extends CI_Controller
         $data['judul'] = 'IPK Terendah';
         $data['judul_halaman'] = 'Mahasiswa Aktif Dengan IPK Terendah';
 
+        // echo "<pre>";
+        // var_dump($data['minIPKaktif']);
+        // echo "<pre>";
+        // die;
+
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
@@ -166,6 +198,11 @@ class Dashboard extends CI_Controller
         $data['judul'] = 'IPK Terendah';
         $data['judul_halaman'] = 'Lulusan Dengan IPK Terendah';
 
+
+        // echo "<pre>";
+        // var_dump($data['minIPKlulus']);
+        // echo "<pre>";
+        // die;
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
@@ -208,14 +245,14 @@ class Dashboard extends CI_Controller
         $filterBy = $this->input->post('tahunID'); // or Finance etc.
         $filterByProdi = $this->input->post('prodiID');
         $data['dropdown_tahunid'] = $filterBy;
-        $data['dropdown_tahunajaran'] = $tahunajaran;
         $data['dropdown_prodi'] = $filterByProdi;
         if ($tahunajaran == null) {
             $tahunajaran = '20211';
         }
 
-        $new = array_filter($array, function ($var) use ($filterBy) {
-            return ($var['ID Tahun Akademik'] == $filterBy);
+        $data['dropdown_tahunajaran'] = $tahunajaran;
+        $new = array_filter($array, function ($var) use ($tahunajaran) {
+            return ($var['ID Tahun Akademik'] == $tahunajaran);
         });
         $maxtahunid = array_filter($array, function ($var) use ($tahunajaran) {
             return ($var['ID Tahun Akademik'] == $tahunajaran);
@@ -226,9 +263,9 @@ class Dashboard extends CI_Controller
 
         $minsks = min(array_column($maxtahunid, 'Total SKS'));
         $maxsks = max(array_column($maxtahunid, 'Total SKS'));
-        $minmaxsks = 17;
+        $minmaxsks = 12;
         $minsks_dosen = array_filter($array, function ($var) use ($minmaxsks, $tahunajaran) {
-            return ($var['Total SKS'] <= $minmaxsks and $var['ID Tahun Akademik'] == $tahunajaran);
+            return ($var['Total SKS'] < $minmaxsks and $var['ID Tahun Akademik'] == $tahunajaran);
         });
         $maxsks_dosen = array_filter($array, function ($var) use ($minmaxsks, $tahunajaran) {
             return ($var['Total SKS'] >= $minmaxsks and $var['ID Tahun Akademik'] == $tahunajaran);
@@ -276,11 +313,29 @@ class Dashboard extends CI_Controller
             }
             return $carry;
         });
+        if (array_key_exists($filterByProdi, $prodi)) {
+            $namaproditabel = $prodi[$filterByProdi]['Nama Prodi'];
+        } else {
+            $namaproditabel = '';
+        }
+        if ($tahunajaran != '') {
+            foreach ($tahun as $equal) {
+                if ($equal['ID Tahun Akademik'] == $tahunajaran) {
+                    $fix_dropdown = $equal['Nama Tahun Akademik'];
+                }
+            }
+        } else {
+            $fix_dropdown = 'Pilih Program Studi';
+        }
 
-        $data['labelgraph'] = 'Total SKS Tahun Ajaran ' . $filterBy;
+        $data['label_summary'] = $fix_dropdown;
+        $data['labelgraphdosen'] = 'Grafik Beban Pengajaran Dosen Program Studi ' . $namaproditabel;
+        $data['labeltabeldosen'] = 'Data Tabel Detail Beban Pengajaran Dosen Program Studi ' . $namaproditabel;
+        $data['labeltable'] = 'Data Tabel Beban Pengajaran Dosen Program Studi ' . $namaproditabel;
+        $data['labelgraph'] = 'Total SKS Tahun Ajaran ' . $fix_dropdown;
         $data['labelgraph_sksdosen'] = 'Total SKS Tahun Ajaran ' . $filterBy;
         $data['judul'] = 'Dashboard Dekanat';
-        $data['judul_halaman'] = 'Jumlah SKS Dosen';
+        $data['judul_halaman'] = 'Beban Kinerja Pengajaran';
         $data['tahunID'] = $tahun;
         $data['sks_dosen'] = $new2;
         $data['prodisksterbanyak'] = $getmaxsksprodi;
@@ -290,7 +345,7 @@ class Dashboard extends CI_Controller
         $data['maxsksDosen'] = $maxsks_dosen;
         $data['minsksDosen'] = $minsks_dosen;
         // echo "<pre>";
-        // var_dump($data['dropdown_tahunajaran']);
+        // var_dump($label_kartu);
         // echo "<pre>";
         // die;
         $this->load->view('templates/header', $data);
@@ -306,7 +361,7 @@ class Dashboard extends CI_Controller
         $maxtahunid = array_filter($array, function ($var) use ($maxtahun) {
             return ($var['ID Tahun Akademik'] == $maxtahun);
         });
-        $maxsks = 17;
+        $maxsks = 29;
         $maxtahunid = array_filter($array, function ($var) use ($maxtahun) {
             return ($var['ID Tahun Akademik'] == $maxtahun);
         });
@@ -332,7 +387,7 @@ class Dashboard extends CI_Controller
         $maxtahunid = array_filter($array, function ($var) use ($maxtahun) {
             return ($var['ID Tahun Akademik'] == $maxtahun);
         });
-        $minsks = 17;
+        $minsks = 12;
         $minsks_dosen = array_filter($array, function ($var) use ($minsks, $maxtahun) {
             return ($var['Total SKS'] <= $minsks and $var['ID Tahun Akademik'] == $maxtahun);
         });
@@ -340,9 +395,48 @@ class Dashboard extends CI_Controller
         $data['judul'] = 'Dosen SKS Minimal';
         $data['judul_halaman'] = 'Jumlah Minimal SKS Dosen';
 
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('content/minDosen', $data);
+        $this->load->view('templates/footer', $data);
+    }
+
+    public function pertumbuhanmahasiswa()
+    {
+        $data['judul'] = 'Pertumbuhan Mahasiswa';
+        $data['judul_halaman'] = 'Pertumbuhan Mahasiswa';
+        $prodi = $this->input->post('prodi');
+        $angkatan = $this->input->post('angkatan');
+        $data["nama_prodi"] = $this->Mahasiswa_model->getProdiName();
+        if ($prodi != '') {
+            foreach ($data['nama_prodi'] as $equal) {
+                if ($equal['ID Prodi'] == $prodi) {
+                    $fix_dropdown = $equal['Nama Prodi'];
+                }
+            }
+        } else {
+            $fix_dropdown = 'Pilih Program Studi';
+            $data['LabelCartall'] = 'Silahkan Pilih Program Studi';
+            $data['LabelCartlulus'] = 'Silahkan Pilih Program Studi';
+        }
+        $data['LabelCartlulus'] = 'Pertumbuhan Mahasiswa Lulus ' . $fix_dropdown;
+        $data['LabelCartall'] = 'Pertumbuhan Mahasiswa Aktif ' . $fix_dropdown;
+        $data['labeltable'] = 'Data Pertumbuhan Mahasiswa Aktif ' . $fix_dropdown;
+        $data['labeltablelulus'] = 'Data Pertumbuhan Mahasiswa Lulus ' . $fix_dropdown;
+        $data['dropdown_angkatan'] = $angkatan;
+        $data['dropdown_prodi'] = $fix_dropdown;
+        $datapertumbuhanaktif = $this->Mahasiswa_model->mhsAktifCount($prodi, 'Aktif');
+        $datapertumbuhanlulus = $this->Mahasiswa_model->mhsAktifCount($prodi, 'Lulus');
+        $data['datapertumbuhanlulus'] = $datapertumbuhanlulus;
+        $data['datapertumbuhan'] = $datapertumbuhanaktif;
+        // echo "<pre>";
+        // var_dump($datapertumbuhanaktif);
+        // echo "</pre>";
+        // die;
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('content/graph_mahasiswa');
         $this->load->view('templates/footer', $data);
     }
 }

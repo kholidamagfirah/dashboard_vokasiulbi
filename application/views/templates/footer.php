@@ -65,7 +65,14 @@
 <!-- Page level plugins -->
 <script src="<?= base_url('assets/ruang-admin') ?>/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('assets/ruang-admin') ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+<script>
+    $(document).ready(function() {
+        $('.select2-single-placeholder').select2({
+            placeholder: "Nama Prodi",
+            allowClear: true
+        });
+    });
+</script>
 
 <script>
     $(document).ready(function() {
@@ -79,7 +86,6 @@
         $('#dataTableHover').DataTable(); // ID From dataTable with Hover
     });
 </script>
-?>
 <!-- chart penelitian -->
 <script>
     // Area Chart Example
@@ -771,6 +777,246 @@
 <!-- end mahasiswa chart -->
 
 
+<!-- chart pertumbuhan mahasiswa Aktif-->
+<script>
+    // mahasiswa chart
+    // Area Chart Example
+    // Area Chart Example
+    var ctx = document.getElementById("pertumbuhanmhs");
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [
+                <?php
+                //melakukan perulangan data prodi
+                //data nama prodi digunakan sebagai label
+                foreach ($datapertumbuhan as $label) {
+                    echo '"' . $label['angkatan'] . '",';
+                }
+
+                ?>
+            ],
+            datasets: [{
+                label: "Jumlah Mahasiswa",
+                lineTension: 0.3,
+                backgroundColor: "rgba(78, 115, 223, 0.5)",
+                borderColor: "rgba(78, 115, 223, 1)",
+                pointRadius: 3,
+                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointBorderColor: "rgba(78, 115, 223, 1)",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+                data: [
+                    <?php
+                    //melakukan perulangan data prodi
+                    //data nama prodi digunakan sebagai label
+                    foreach ($datapertumbuhan as $label) {
+                        echo '"' . $label['jumlahmhs'] . '",';
+                    }
+
+                    ?>
+                ],
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                }
+            },
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'date'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 15
+                        },
+                        maxTicksLimit: 30
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        font: {
+                            size: 15
+                        },
+                        maxTicksLimit: 30,
+                        padding: 1,
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, values) {
+                            return '' + number_format(value);
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                titleFontSize: 14,
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                intersect: false,
+                mode: 'index',
+                caretPadding: 10,
+                callbacks: {
+                    label: function(tooltipItem, chart) {
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
+                    }
+                }
+            }
+        }
+    });
+</script>
+<!-- endchart pertumbuhan mahasiswa  Aktif-->
+
+
+<!-- chart pertumbuhan mahasiswa Lulus-->
+<script>
+    // mahasiswa chart
+    // Area Chart Example
+    // Area Chart Example
+    var ctx = document.getElementById("pertumbuhanmhslulus");
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [
+                <?php
+                //melakukan perulangan data prodi
+                //data nama prodi digunakan sebagai label
+                foreach ($datapertumbuhanlulus as $label) {
+                    echo '"' . $label['angkatan'] . '",';
+                }
+
+                ?>
+            ],
+            datasets: [{
+                label: "Jumlah Mahasiswa",
+                lineTension: 0.3,
+                backgroundColor: "rgba(78, 115, 223, 0.5)",
+                borderColor: "rgba(78, 115, 223, 1)",
+                pointRadius: 3,
+                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointBorderColor: "rgba(78, 115, 223, 1)",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+                data: [
+                    <?php
+                    //melakukan perulangan data prodi
+                    //data nama prodi digunakan sebagai label
+                    foreach ($datapertumbuhanlulus as $label) {
+                        echo '"' . $label['jumlahmhs'] . '",';
+                    }
+
+                    ?>
+                ],
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                }
+            },
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'date'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 15
+                        },
+                        maxTicksLimit: 30
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        font: {
+                            size: 15
+                        },
+                        maxTicksLimit: 30,
+                        padding: 1,
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, values) {
+                            return '' + number_format(value);
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                titleFontSize: 14,
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                intersect: false,
+                mode: 'index',
+                caretPadding: 10,
+                callbacks: {
+                    label: function(tooltipItem, chart) {
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
+                    }
+                }
+            }
+        }
+    });
+</script>
+<!-- endchart pertumbuhan mahasiswa  Lulus-->
 <script>
     $(document).ready(function() {
 
